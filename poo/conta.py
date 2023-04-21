@@ -1,20 +1,18 @@
 class Conta:
     def __init__(self, agencia, numero):
+        self.saldo = 0.00
+        self.numero = numero
         self.agencia = agencia
         self.histo = []
-        self.limite = 1000
-        self.saldo = 0
-        self.numero = numero
+        self.limite = 1000.00
+        
 
-
-    print("=-" * 12)
-    print("SISTEMA BANCÁRIO:")
-
+#
 
     def saque(self, quantia):
         print("=-" * 10)
         print("SAQUE")
-        if quantia > (self.saldo + self.limite):
+        if quantia > self.saldo + self.limite:
             print("saldo insuficiente.")
             return
         if quantia < 0:
@@ -24,8 +22,6 @@ class Conta:
         self.histo.append(("Saque", quantia))
 
 
-   
-    
     def deposito(self, quantia):
         print("=-" * 10)
         print("DEPÓSITO")
@@ -35,43 +31,41 @@ class Conta:
         self.saldo += quantia
         self.histo.append(("Depósito", quantia))
 
-
     def verificar_saldo(self):
         print("=-" * 10)
         print("SALDO")
-        print(f" R${self.saldo:.2f}")
+        print(f" R${self.saldo:}")
 
-    
-    
-    def transferir(self, quantia, outra_conta):
-        print("=-" * 10)
-        print("TRANSFERIR")
-        if quantia > self.saldo:
-            print("saldo insuficiente.")
-            return
-        if quantia < 0:
-            print("não é possível transferir valores negativos.")
+
+
+
+    def transferir(self, conta2, quantia):
+        if self.saldo + self.limite < quantia:
+            print('Saldo insuficiente.')
             return
         self.saldo -= quantia
-        outra_conta.saldo += quantia
-        self.histo.append(("Transferência", quantia, outra_conta.numero))
+        self.histo.append(f'Transferencia no valor de: R${quantia} para a conta {conta2.numero} realizada com sucesso')
+        conta2.saldo += quantia
 
 
-    def verificar_extrato(self):
+    def extrato(self):
         print("=-" * 10)
         print("EXTRATO")
-        print("Seu extrato - ")
+        print(f'Agencia: {self.agencia}  -  Limite: R${self.limite}  -  Conta: {self.numero}  -  Saldo: R${self.saldo}')
         for operacao in self.histo:
-            if operacao[0] == "Transferência":
-                print(f"- {operacao[0]} de R${operacao[1]:.2f} para a conta {operacao[2]}")
-            else:
-                print(f"- {operacao[0]} de R${operacao[1]:.2f}")
+            print(operacao)
+    
+
+
 
     def encerrar_conta(self):
         print("=-" * 10)
         print("ENCERRAR CONTA")
-        if self.saldo != 0:
-            print("sua conta não está negativada. Por isso, não é possível encerra-la.")
+        if self.saldo <= 0:
+            print("Sua conta não está negativada. Não é possivel encerra-la.")
+            print("Quite sua dívida")
             return
-        print("Conta encerrada.")
+        else:
+            print("Conta encerrada.")
+
 
