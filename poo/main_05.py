@@ -11,7 +11,6 @@ conta01.deposito(3000)
 
 conta01.saque(200)
 
-conta01.verificar_saldo()
 
 
 
